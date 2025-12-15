@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: gabi-ums
+
+  profiles:
+    active: local,test,prod

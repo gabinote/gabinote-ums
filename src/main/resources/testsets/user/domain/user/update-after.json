@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "_id": "$anyObject()",
+      "uid": "user_ext_1001",
+      "nickname": "UpdatedNickname",
+      "profileImg": "https://cdn.gabinote.com/profiles/updated.png",
+      "createdDate":1704070800123,
+      "modifiedDate":1030460400000,
+      "isOpenProfile": true
+    }
+  ]
+}
+
