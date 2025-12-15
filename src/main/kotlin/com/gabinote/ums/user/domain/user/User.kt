@@ -25,7 +25,7 @@ data class User(
     var nickname: String,
 
     var profileImg: String,
-
+    @JvmField
     var isOpenProfile: Boolean = true,
 ){
     fun changeNickname(nickname: String) {
