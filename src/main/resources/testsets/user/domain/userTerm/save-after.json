@@ -1,0 +1,13 @@
+{
+  "user_terms": [
+    {
+      "_id": "$anyObject()",
+      "userId": "user_ext_1001",
+      "termCode": "MARKETING_CONSENT",
+      "termVersion": "1.0.0",
+      "accepted": true,
+      "acceptedDate": 1030460400000
+    }
+  ]
+}
+

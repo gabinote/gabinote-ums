@@ -1,0 +1,13 @@
+{
+  "user_terms": [
+    {
+      "_id": { "$oid": "6524fa9a9e3d9b1a5c8b4570" },
+      "userId": "user_ext_1001",
+      "termCode": "TERMS_OF_SERVICE",
+      "termVersion": "1.0.0",
+      "accepted": true,
+      "acceptedDate": "2024-01-01T10:00:00.123"
+    }
+  ]
+}
+
