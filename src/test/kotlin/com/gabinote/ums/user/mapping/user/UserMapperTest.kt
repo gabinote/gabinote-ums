@@ -38,6 +38,9 @@ class UserMapperTest : MockkTestTemplate() {
                         nickname = "TestUser",
                         profileImg = "https://cdn.gabinote.com/profiles/test.png",
                         isOpenProfile = true,
+                        isMarketingEmailAgreed = true,
+                        isMarketingPushAgreed = true,
+                        isNightPushAgreed = false,
                         createdDate = TestTimeProvider.testDateTime,
                         modifiedDate = TestTimeProvider.testDateTime
                     )
@@ -66,6 +69,9 @@ class UserMapperTest : MockkTestTemplate() {
                         nickname = "PrivateUser",
                         profileImg = "",
                         isOpenProfile = false,
+                        isMarketingEmailAgreed = false,
+                        isMarketingPushAgreed = false,
+                        isNightPushAgreed = false,
                         createdDate = TestTimeProvider.testDateTime,
                         modifiedDate = TestTimeProvider.testDateTime
                     )
@@ -200,14 +206,22 @@ class UserMapperTest : MockkTestTemplate() {
                     val dto = UserRegisterReqControllerDto(
                         nickname = "NewUser",
                         profileImg = "https://cdn.gabinote.com/profiles/new.png",
-                        isOpenProfile = true
+                        isOpenProfile = true,
+                        isEssentialTermsAgreements = true,
+                        isMarketingEmailAgreed = true,
+                        isMarketingPushAgreed = false,
+                        isNightPushAgreed = false,
+                        isOver14 = true
                     )
 
                     val expected = UserRegisterReqServiceDto(
                         uid = uid ,
                         nickname = dto.nickname,
                         profileImg = dto.profileImg,
-                        isOpenProfile = dto.isOpenProfile
+                        isOpenProfile = dto.isOpenProfile,
+                        isMarketingEmailAgreed = dto.isMarketingEmailAgreed,
+                        isMarketingPushAgreed = dto.isMarketingPushAgreed,
+                        isNightPushAgreed = dto.isNightPushAgreed
                     )
 
                     it("UserRegisterReqServiceDto로 변환되어야 한다.") {
@@ -216,6 +230,9 @@ class UserMapperTest : MockkTestTemplate() {
                         result.nickname shouldBe expected.nickname
                         result.profileImg shouldBe expected.profileImg
                         result.isOpenProfile shouldBe expected.isOpenProfile
+                        result.isMarketingEmailAgreed shouldBe expected.isMarketingEmailAgreed
+                        result.isMarketingPushAgreed shouldBe expected.isMarketingPushAgreed
+                        result.isNightPushAgreed shouldBe expected.isNightPushAgreed
                     }
                 }
 
@@ -224,14 +241,22 @@ class UserMapperTest : MockkTestTemplate() {
                     val dto = UserRegisterReqControllerDto(
                         nickname = "PrivateNewUser",
                         profileImg = "",
-                        isOpenProfile = false
+                        isOpenProfile = false,
+                        isEssentialTermsAgreements = true,
+                        isMarketingEmailAgreed = false,
+                        isMarketingPushAgreed = false,
+                        isNightPushAgreed = false,
+                        isOver14 = true
                     )
 
                     val expected = UserRegisterReqServiceDto(
                         uid = TestUuidSource.UUID_STRING,
                         nickname = dto.nickname,
                         profileImg = dto.profileImg,
-                        isOpenProfile = dto.isOpenProfile
+                        isOpenProfile = dto.isOpenProfile,
+                        isMarketingEmailAgreed = dto.isMarketingEmailAgreed,
+                        isMarketingPushAgreed = dto.isMarketingPushAgreed,
+                        isNightPushAgreed = dto.isNightPushAgreed
                     )
 
                     it("isOpenProfile이 false인 UserRegisterReqServiceDto로 변환되어야 한다.") {
@@ -240,6 +265,9 @@ class UserMapperTest : MockkTestTemplate() {
                         result.nickname shouldBe expected.nickname
                         result.profileImg shouldBe expected.profileImg
                         result.isOpenProfile shouldBe expected.isOpenProfile
+                        result.isMarketingEmailAgreed shouldBe expected.isMarketingEmailAgreed
+                        result.isMarketingPushAgreed shouldBe expected.isMarketingPushAgreed
+                        result.isNightPushAgreed shouldBe expected.isNightPushAgreed
                     }
                 }
             }
@@ -250,14 +278,20 @@ class UserMapperTest : MockkTestTemplate() {
                     val dto = UserUpdateReqControllerDto(
                         nickname = "UpdatedUser",
                         profileImg = "https://cdn.gabinote.com/profiles/updated.png",
-                        isOpenProfile = true
+                        isOpenProfile = true,
+                        isMarketingEmailAgreed = true,
+                        isMarketingPushAgreed = false,
+                        isNightPushAgreed = true
                     )
 
                     val expected = UserUpdateReqServiceDto(
                         uid = TestUuidSource.UUID_STRING,
                         nickname = dto.nickname,
                         profileImg = dto.profileImg,
-                        isOpenProfile = dto.isOpenProfile
+                        isOpenProfile = dto.isOpenProfile,
+                        isMarketingEmailAgreed = dto.isMarketingEmailAgreed,
+                        isMarketingPushAgreed = dto.isMarketingPushAgreed,
+                        isNightPushAgreed = dto.isNightPushAgreed
                     )
 
                     it("UserUpdateReqServiceDto로 변환되어야 한다.") {
@@ -266,6 +300,9 @@ class UserMapperTest : MockkTestTemplate() {
                         result.nickname shouldBe expected.nickname
                         result.profileImg shouldBe expected.profileImg
                         result.isOpenProfile shouldBe expected.isOpenProfile
+                        result.isMarketingEmailAgreed shouldBe expected.isMarketingEmailAgreed
+                        result.isMarketingPushAgreed shouldBe expected.isMarketingPushAgreed
+                        result.isNightPushAgreed shouldBe expected.isNightPushAgreed
                     }
                 }
 
@@ -274,14 +311,20 @@ class UserMapperTest : MockkTestTemplate() {
                     val dto = UserUpdateReqControllerDto(
                         nickname = "ClosedProfileUser",
                         profileImg = "https://cdn.gabinote.com/profiles/closed.png",
-                        isOpenProfile = false
+                        isOpenProfile = false,
+                        isMarketingEmailAgreed = false,
+                        isMarketingPushAgreed = false,
+                        isNightPushAgreed = false
                     )
 
                     val expected = UserUpdateReqServiceDto(
                         uid = TestUuidSource.UUID_STRING,
                         nickname = dto.nickname,
                         profileImg = dto.profileImg,
-                        isOpenProfile = dto.isOpenProfile
+                        isOpenProfile = dto.isOpenProfile,
+                        isMarketingEmailAgreed = dto.isMarketingEmailAgreed,
+                        isMarketingPushAgreed = dto.isMarketingPushAgreed,
+                        isNightPushAgreed = dto.isNightPushAgreed
                     )
 
                     it("isOpenProfile이 false인 UserUpdateReqServiceDto로 변환되어야 한다.") {
@@ -290,6 +333,9 @@ class UserMapperTest : MockkTestTemplate() {
                         result.nickname shouldBe expected.nickname
                         result.profileImg shouldBe expected.profileImg
                         result.isOpenProfile shouldBe expected.isOpenProfile
+                        result.isMarketingEmailAgreed shouldBe expected.isMarketingEmailAgreed
+                        result.isMarketingPushAgreed shouldBe expected.isMarketingPushAgreed
+                        result.isNightPushAgreed shouldBe expected.isNightPushAgreed
                     }
                 }
             }
@@ -300,7 +346,10 @@ class UserMapperTest : MockkTestTemplate() {
                         uid = TestUuidSource.UUID_STRING,
                         nickname = "RegisterUser",
                         profileImg = "https://cdn.gabinote.com/profiles/register.png",
-                        isOpenProfile = true
+                        isOpenProfile = true,
+                        isMarketingEmailAgreed = true,
+                        isMarketingPushAgreed = false,
+                        isNightPushAgreed = false
                     )
 
                     val expected = User(
@@ -310,7 +359,10 @@ class UserMapperTest : MockkTestTemplate() {
                         modifiedDate = null,
                         nickname = dto.nickname,
                         profileImg = dto.profileImg,
-                        isOpenProfile = dto.isOpenProfile
+                        isOpenProfile = dto.isOpenProfile,
+                        isMarketingEmailAgreed = dto.isMarketingEmailAgreed,
+                        isMarketingPushAgreed = dto.isMarketingPushAgreed,
+                        isNightPushAgreed = dto.isNightPushAgreed
                     )
 
                     it("User 엔티티로 변환되어야 한다. (id, uid, dates는 null)") {
@@ -325,7 +377,10 @@ class UserMapperTest : MockkTestTemplate() {
                         uid = TestUuidSource.UUID_STRING,
                         nickname = "PrivateRegisterUser",
                         profileImg = "",
-                        isOpenProfile = false
+                        isOpenProfile = false,
+                        isMarketingEmailAgreed = false,
+                        isMarketingPushAgreed = false,
+                        isNightPushAgreed = false
                     )
 
                     val expected = User(
@@ -335,7 +390,10 @@ class UserMapperTest : MockkTestTemplate() {
                         modifiedDate = null,
                         nickname = dto.nickname,
                         profileImg = dto.profileImg,
-                        isOpenProfile = dto.isOpenProfile
+                        isOpenProfile = dto.isOpenProfile,
+                        isMarketingEmailAgreed = dto.isMarketingEmailAgreed,
+                        isMarketingPushAgreed = dto.isMarketingPushAgreed,
+                        isNightPushAgreed = dto.isNightPushAgreed
                     )
 
                     it("isOpenProfile이 false인 User 엔티티로 변환되어야 한다.") {

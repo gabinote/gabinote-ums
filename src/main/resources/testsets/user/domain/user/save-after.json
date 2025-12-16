@@ -7,7 +7,10 @@
       "profileImg": "https://cdn.gabinote.com/profiles/new_user.png",
       "createdDate":1030460400000,
       "modifiedDate":1030460400000,
-      "isOpenProfile": true
+      "isOpenProfile": true,
+      "isMarketingEmailAgreed": false,
+      "isMarketingPushAgreed": false,
+      "isNightPushAgreed": false
     }
   ]
 }

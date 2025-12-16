@@ -11,4 +11,13 @@ data class UserUpdateReqServiceDto(
 
     @JvmField
     val isOpenProfile: Boolean,
+
+    @JvmField
+    val isMarketingEmailAgreed: Boolean,
+
+    @JvmField
+    val isMarketingPushAgreed: Boolean,
+
+    @JvmField
+    val isNightPushAgreed: Boolean,
 )

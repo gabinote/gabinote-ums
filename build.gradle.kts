@@ -124,7 +124,7 @@ dependencies {
 
     //keycloak
     // https://mvnrepository.com/artifact/org.keycloak/keycloak-admin-client
-    testImplementation("org.keycloak:keycloak-admin-client:26.0.5")
+    implementation("org.keycloak:keycloak-admin-client:26.0.5")
 }
 
 kotlin {

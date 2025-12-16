@@ -3,7 +3,6 @@ package com.gabinote.ums.user.domain.user
 import com.gabinote.ums.testSupport.testTemplate.RepositoryTestTemplate
 import io.kotest.matchers.shouldBe
 import org.springframework.beans.factory.annotation.Autowired
-import java.time.LocalDateTime
 
 class UserRepositoryTest : RepositoryTestTemplate() {
     override val baseData = "base.json"
@@ -64,6 +63,10 @@ class UserRepositoryTest : RepositoryTestTemplate() {
                         val newUser = User(
                             nickname = "NewUser",
                             profileImg = "https://cdn.gabinote.com/profiles/new_user.png",
+                            isOpenProfile = true,
+                            isMarketingEmailAgreed = false,
+                            isMarketingPushAgreed = false,
+                            isNightPushAgreed = false
                         )
                         userRepository.save(newUser)
                         testDataHelper.assertData("$baseDataDir/save-after.json")

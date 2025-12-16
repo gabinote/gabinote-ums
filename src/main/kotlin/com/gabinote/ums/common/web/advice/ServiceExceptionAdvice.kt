@@ -3,6 +3,7 @@ package com.gabinote.ums.common.web.advice
 import com.gabinote.ums.common.util.exception.service.ResourceDuplicate
 import com.gabinote.ums.common.util.exception.service.ResourceNotFound
 import com.gabinote.ums.common.util.exception.service.ResourceNotValid
+import com.gabinote.ums.common.util.exception.service.ServerError
 import com.gabinote.ums.common.util.log.ErrorLog
 import com.gabinote.ums.common.web.advice.ExceptionAdviceHelper.getRequestId
 import com.gabinote.ums.common.web.advice.ExceptionAdviceHelper.problemDetail
@@ -122,4 +123,30 @@ class ServiceExceptionAdvice {
         return ResponseEntity(problemDetail, status)
     }
 
+    @ExceptionHandler(ServerError::class)
+    fun handleServerError(
+        ex: ServerError,
+        request: HttpServletRequest
+    ): ResponseEntity<ProblemDetail> {
+        val requestId = getRequestId(request)
+        val status = HttpStatus.INTERNAL_SERVER_ERROR
+
+        val problemDetail = problemDetail(
+            status = status,
+            title = "Server Error",
+            detail = ex.errorMessage,
+            requestId = requestId
+        )
+
+        val log = ErrorLog(
+            requestId = requestId,
+            method = request.method,
+            path = request.requestURI,
+            status = status,
+            error = "ServerError",
+            message = ex.logMessage
+        )
+        logger.error { log.toString() }
+        return ResponseEntity(problemDetail, status)
+    }
 }

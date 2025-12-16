@@ -10,6 +10,7 @@ import com.gabinote.ums.user.dto.user.service.UserResServiceDto
 import com.gabinote.ums.user.dto.user.service.UserUpdateReqServiceDto
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
+import org.mapstruct.MappingTarget
 import java.util.UUID
 
 @Mapper(
@@ -29,6 +30,15 @@ interface UserMapper {
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "modifiedDate", ignore = true)
     fun toUser(dto: UserRegisterReqServiceDto): User
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "uid", ignore = true)
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "modifiedDate", ignore = true)
+    fun updateUserFromDto(
+        source: UserUpdateReqServiceDto,
+        @MappingTarget target: User,
+    )
 
 
 }
