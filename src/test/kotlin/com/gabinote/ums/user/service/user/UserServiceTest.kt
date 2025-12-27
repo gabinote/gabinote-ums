@@ -14,6 +14,8 @@ import com.gabinote.ums.user.dto.user.service.UserRegisterReqServiceDto
 import com.gabinote.ums.user.dto.user.service.UserResServiceDto
 import com.gabinote.ums.user.dto.user.service.UserUpdateReqServiceDto
 import com.gabinote.ums.user.mapping.user.UserMapper
+import com.gabinote.ums.user.service.keycloakUser.KeycloakUserService
+import com.gabinote.ums.user.service.keycloakUser.KeycloakUserServiceTest
 import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.every
@@ -41,6 +43,8 @@ class UserServiceTest : ServiceTestTemplate() {
 
     @MockK
     private lateinit var keycloakUserService: KeycloakUserService
+
+
 
     init {
         beforeTest {
@@ -200,8 +204,8 @@ class UserServiceTest : ServiceTestTemplate() {
                     }
 
                     it("ResourceForbidden 예외를 던진다.") {
-                        val ex = assertThrows<ResourceForbidden> { 
-                            userService.getOpenProfileUserByUid(existingUid, requestorUid) 
+                        val ex = assertThrows<ResourceForbidden> {
+                            userService.getOpenProfileUserByUid(existingUid, requestorUid)
                         }
                         ex.errorMessage shouldBe "${requestorUid} is forbidden to access closed profile on User Profile"
 
@@ -225,7 +229,7 @@ class UserServiceTest : ServiceTestTemplate() {
                         val userEntity = mockk<User>()
                         val savedUser = mockk<User>()
                         val userResServiceDto = mockk<UserResServiceDto>()
-                        val baseGroupId = "test-group-id"
+                        val baseRoleName = "test-role"
 
                         beforeTest {
                             // 가입 가능 확인
@@ -243,15 +247,15 @@ class UserServiceTest : ServiceTestTemplate() {
                                 userRepository.save(userEntity)
                             } returns savedUser
 
-                            // Keycloak 그룹 업데이트
+                            // Keycloak 롤 업데이트
                             every {
-                                policyService.getByKey(PolicyKey.USER_REGISTER_BASE_GROUP)
-                            } returns baseGroupId
+                                policyService.getByKey(PolicyKey.USER_REGISTER_BASE_ROLE)
+                            } returns baseRoleName
 
                             every {
-                                keycloakUserService.updateUserGroup(
+                                keycloakUserService.updateUserRole(
                                     userId = registerReq.uid.toString(),
-                                    groupId = baseGroupId
+                                    roleName = baseRoleName
                                 )
                             } returns Unit
 
@@ -268,11 +272,11 @@ class UserServiceTest : ServiceTestTemplate() {
                             verify(exactly = 1) { policyService.getByKey(PolicyKey.USER_ENABLED_REGISTER) }
                             verify(exactly = 1) { userMapper.toUser(registerReq) }
                             verify(exactly = 1) { userRepository.save(userEntity) }
-                            verify(exactly = 1) { policyService.getByKey(PolicyKey.USER_REGISTER_BASE_GROUP) }
-                            verify(exactly = 1) { 
-                                keycloakUserService.updateUserGroup(
+                            verify(exactly = 1) { policyService.getByKey(PolicyKey.USER_REGISTER_BASE_ROLE) }
+                            verify(exactly = 1) {
+                                keycloakUserService.updateUserRole(
                                     userId = registerReq.uid.toString(),
-                                    groupId = baseGroupId
+                                    roleName = baseRoleName
                                 )
                             }
                             verify(exactly = 1) { userMapper.toResServiceDto(savedUser) }
@@ -364,7 +368,8 @@ class UserServiceTest : ServiceTestTemplate() {
                 }
             }
 
-            describe("UserService.deleteUser") {
+
+            describe("UserService.delete") {
                 context("존재하는 User uid가 주어지면,") {
                     val existingUid = TestUuidSource.UUID_STRING
                     val existingUser = User(
@@ -390,11 +395,30 @@ class UserServiceTest : ServiceTestTemplate() {
                         } returns Unit
                     }
 
-                    it("해당 uid에 맞는 User를 삭제한다.") {
-                        userService.deleteUser(existingUid)
+                    it("유저를 삭제한다.") {
+                        userService.delete(existingUid)
 
                         verify(exactly = 1) { userRepository.findByUid(existingUid.toString()) }
                         verify(exactly = 1) { userRepository.delete(existingUser) }
+                    }
+                }
+
+                context("존재하지 않는 User uid가 주어지면,") {
+                    val nonExistingUid = UUID.randomUUID()
+
+                    beforeTest {
+                        every {
+                            userRepository.findByUid(nonExistingUid.toString())
+                        } returns null
+                    }
+
+                    it("ResourceNotFound 예외를 던진다.") {
+                        val ex = assertThrows<ResourceNotFound> { userService.delete(nonExistingUid) }
+                        ex.name shouldBe "User"
+                        ex.identifier shouldBe nonExistingUid.toString()
+                        ex.identifierType shouldBe "iid"
+
+                        verify(exactly = 1) { userRepository.findByUid(nonExistingUid.toString()) }
                     }
                 }
             }

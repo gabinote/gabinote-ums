@@ -1,14 +1,20 @@
 package com.gabinote.ums.testSupport.testUtil.data
 
 
+import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.databind.module.SimpleModule
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.bson.types.ObjectId
 import org.springframework.boot.test.context.TestComponent
 import org.springframework.core.io.ClassPathResource
 import org.springframework.data.mongodb.core.MongoTemplate
+import java.time.Instant
+import java.util.Date
 
 private val logger = KotlinLogging.logger {}
 
@@ -19,7 +25,28 @@ class TestDataHelper(
     ) {
 
     private val objectMapper: ObjectMapper = ObjectMapper().apply {
-        this.registerModule(com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
+        registerModule(com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
+
+        val mongoModule = SimpleModule().apply {
+
+            addSerializer(ObjectId::class.java, object : JsonSerializer<ObjectId>() {
+                override fun serialize(value: ObjectId, gen: JsonGenerator, serializers: SerializerProvider) {
+                    gen.writeStartObject()
+                    gen.writeStringField("\$oid", value.toHexString())
+                    gen.writeEndObject()
+                }
+            })
+
+            addSerializer(Date::class.java, object : JsonSerializer<Date>() {
+                override fun serialize(value: Date, gen: JsonGenerator, serializers: SerializerProvider) {
+                    gen.writeStartObject()
+                    gen.writeStringField("\$date", value.toInstant().toString())
+                    gen.writeEndObject()
+                }
+            })
+        }
+
+        registerModule(mongoModule)
     }
 
     fun setData(jsonFile: String) {
@@ -37,15 +64,53 @@ class TestDataHelper(
     }
 
     private fun toMongoMap(node: JsonNode): Map<String, Any?> {
-        val map = objectMapper.convertValue(node, Map::class.java) as MutableMap<String, Any?>
+        // 기존 단순 변환 로직 제거하고 재귀 함수 호출
+        // val map = objectMapper.convertValue(node, Map::class.java) as MutableMap<String, Any?>
 
-        // _id 변환 처리
-        val idNode = node.get("_id")
-        if (idNode != null && idNode.has("\$oid")) {
-            map["_id"] = ObjectId(idNode["\$oid"].asText())
+        val converted = convertNode(node)
+        return converted as? Map<String, Any?>
+            ?: throw IllegalArgumentException("Root node must be an object")
+    }
+
+    /**
+     * JsonNode를 재귀적으로 탐색하며 MongoDB 타입($oid, $date)으로 변환
+     */
+    private fun convertNode(node: JsonNode): Any? {
+        return when {
+            node.isObject -> {
+                // 1. ObjectId 처리
+                if (node.has("\$oid")) {
+                    return ObjectId(node.get("\$oid").asText())
+                }
+                // 2. Date 처리 (Extended JSON 포맷)
+                if (node.has("\$date")) {
+                    val dateStr = node.get("\$date").asText()
+                    // ISO 8601 문자열을 Date 객체로 변환
+                    return Date.from(Instant.parse(dateStr))
+                }
+
+                // 3. 일반 객체: 필드별로 재귀 호출하여 Map 생성
+                val map = mutableMapOf<String, Any?>()
+                node.fields().forEachRemaining { entry ->
+                    map[entry.key] = convertNode(entry.value)
+                }
+                return map
+            }
+
+            node.isArray -> {
+                // 배열 내부 요소들도 재귀적으로 변환
+                node.map { convertNode(it) }
+            }
+
+            // 기본 타입 처리
+            node.isTextual -> node.asText()
+            node.isBoolean -> node.asBoolean()
+            node.isInt -> node.asInt()
+            node.isLong -> node.asInt()
+            node.isDouble -> node.asDouble()
+            node.isNull -> null
+            else -> node.toString()
         }
-
-        return map
     }
 
     fun assertData(expectedJsonFile: String) {
@@ -109,7 +174,7 @@ class TestDataHelper(
             }
             // 패턴 문자열 검사
             expected.isTextual -> matchPattern(expected.asText(), actual)
-            else -> expected == actual
+            else -> expected.asText() == actual.asText()
         }
     }
 

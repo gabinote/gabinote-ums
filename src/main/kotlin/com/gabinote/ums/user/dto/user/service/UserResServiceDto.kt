@@ -14,4 +14,13 @@ data class UserResServiceDto(
     val isOpenProfile: Boolean,
     val createdDate: LocalDateTime,
     val modifiedDate: LocalDateTime,
+
+    @JvmField
+    var isMarketingEmailAgreed: Boolean,
+
+    @JvmField
+    var isMarketingPushAgreed: Boolean,
+
+    @JvmField
+    var isNightPushAgreed: Boolean,
 )

@@ -6,7 +6,7 @@
       "termCode": "TERMS_OF_SERVICE",
       "termVersion": "1.0.0",
       "accepted": true,
-      "acceptedDate": "2024-01-01T10:00:00.123"
+      "acceptedDate": { "$date": "2024-01-01T10:00:00.123Z" }
     },
     {
       "_id": { "$oid": "6524fa9a9e3d9b1a5c8b4571" },
@@ -14,7 +14,7 @@
       "termCode": "PRIVACY_POLICY",
       "termVersion": "1.0.0",
       "accepted": true,
-      "acceptedDate": "2024-01-01T10:00:00.123"
+      "acceptedDate": { "$date": "2024-01-01T10:00:00.123Z" }
     },
     {
       "_id": { "$oid": "6524fa9a9e3d9b1a5c8b4572" },
@@ -22,7 +22,7 @@
       "termCode": "TERMS_OF_SERVICE",
       "termVersion": "1.0.0",
       "accepted": true,
-      "acceptedDate": "2024-01-02T10:00:00.123"
+      "acceptedDate": { "$date": "2024-01-02T10:00:00.123Z" }
     }
   ]
 }

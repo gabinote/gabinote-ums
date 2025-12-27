@@ -1,0 +1,13 @@
+{
+  "withdraw_process_history": [
+    {
+      "_id": "$anyObject()",
+      "uid": "00000000-0000-0000-0000-000000000000",
+      "requestId": { "$oid": "507f1f77bcf86cd799439011" },
+      "isPassed": true,
+      "processedAt": { "$date": "2002-08-27T15:00:00Z" },
+      "process": "APPLICATION_USER_DELETE"
+    }
+  ]
+}
+

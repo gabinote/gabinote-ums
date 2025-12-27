@@ -7,9 +7,8 @@
         </encoder>
     </appender>
 
-    <logger name="com.github.database-rider" level="DEBUG"/>
     <logger name="org.springframework" level="info"/>
-    <logger name="com.gabinote" level="debug"/>
+    <logger name="com.gabinote.ums" level="debug"/>
     <logger name="org.testcontainers" level="INFO"/>
     <logger name="tc" level="INFO"/>
     <logger name="com.github.dockerjava" level="WARN"/>

@@ -1,0 +1,23 @@
+{
+  "users": [
+    {
+      "_id": { "$oid": "6524fa9a9e3d9b1a5c8b4570" },
+      "uid": "4c1d15d0-0bef-4e7a-9ea9-b65d277863a0",
+      "nickname": "WithdrawUser",
+      "profileImg": "https://cdn.gabinote.com/profiles/withdraw_user.png",
+      "createdDate": { "$date": "2024-01-01T10:00:00.123Z" },
+      "modifiedDate": { "$date": "2024-01-02T10:00:00.123Z" },
+      "isOpenProfile": true,
+      "isMarketingEmailAgreed": false,
+      "isMarketingPushAgreed": true,
+      "isNightPushAgreed": false
+    }
+  ],
+  "user_withdraws": [
+
+  ],
+  "outbox": [
+
+  ]
+}
+

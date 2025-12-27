@@ -5,6 +5,7 @@ import org.bson.types.ObjectId
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
 
@@ -13,8 +14,8 @@ data class User(
     @Id
     var id: ObjectId? = null,
 
-    @ExternalId
-    var uid: String? = null,
+    @Indexed(unique = true)
+    var uid: String,
 
     @CreatedDate
     var createdDate: LocalDateTime? = null,

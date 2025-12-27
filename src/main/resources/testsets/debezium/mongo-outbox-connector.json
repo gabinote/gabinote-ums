@@ -1,0 +1,27 @@
+{
+  "name": "mongodb-outbox-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.mongodb.MongoDbConnector",
+    "tasks.max": "1",
+    "mongodb.connection.string": "mongodb://mongo-db:27017/?replicaSet=rs0",
+    "topic.prefix": "ums-mongo",
+    "database.include.list": "test",
+    "collection.include.list": "test.outbox",
+    "capture.mode": "change_streams_update_full",
+
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+
+    "transforms": "outbox",
+
+    "transforms.outbox.type": "io.debezium.connector.mongodb.transforms.outbox.MongoEventRouter",
+    "transforms.outbox.collection.field.event.key": "_id",
+    "transforms.outbox.route.topic.replacement": "${routedByValue}",
+    "transforms.outbox.route.by.field": "eventType",
+    "transforms.outbox.payload.field": "payload",
+
+    "transforms.outbox.collection.fields.additional.placement": "_id:envelope:id"
+  }
+}

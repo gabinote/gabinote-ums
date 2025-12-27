@@ -16,7 +16,7 @@ class NeedAuthAspect(
 ) {
     @Before("@annotation(needAuth)")
     fun checkUserLoggedIn(joinPoint: JoinPoint, needAuth: NeedAuth) {
-        if (!userContext.isLoggedIn()) {
+        if (!userContext.isAuthorized) {
             throw GatewayAuthFailed()
         }
     }

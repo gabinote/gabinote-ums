@@ -1,6 +1,7 @@
 package com.gabinote.ums.common.web.advice
 
 import com.gabinote.ums.common.util.exception.service.ResourceDuplicate
+import com.gabinote.ums.common.util.exception.service.ResourceForbidden
 import com.gabinote.ums.common.util.exception.service.ResourceNotFound
 import com.gabinote.ums.common.util.exception.service.ResourceNotValid
 import com.gabinote.ums.common.util.exception.service.ServerError
@@ -89,6 +90,38 @@ class ServiceExceptionAdvice {
         logger.info { log.toString() }
         return ResponseEntity(problemDetail, status)
     }
+
+    /**
+     * 리소스 중복 예외 처리
+     * @param ex 발생한 예외
+     * @param request HTTP 요청
+     * @return 오류 응답
+     */
+    @ExceptionHandler(ResourceForbidden::class)
+    fun handleResourceForbidden(
+        ex: ResourceForbidden,
+        request: HttpServletRequest
+    ): ResponseEntity<ProblemDetail> {
+        val requestId = getRequestId(request)
+        val status = HttpStatus.FORBIDDEN
+        val problemDetail = problemDetail(
+            status = status,
+            title = "Resource Forbidden",
+            detail = ex.message,
+            requestId = requestId
+        )
+        val log = ErrorLog(
+            requestId = requestId,
+            method = request.method,
+            path = request.requestURI,
+            status = status,
+            error = "Resource Forbidden",
+            message = ex.message
+        )
+        logger.info { log.toString() }
+        return ResponseEntity(problemDetail, status)
+    }
+
 
     /**
      * 리소스 유효성 검사 실패 예외 처리

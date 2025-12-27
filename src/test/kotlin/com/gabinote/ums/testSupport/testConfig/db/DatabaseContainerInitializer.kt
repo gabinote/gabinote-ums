@@ -1,6 +1,7 @@
 package com.gabinote.ums.testSupport.testConfig.db
 
 
+import com.gabinote.ums.testSupport.testConfig.container.ContainerNetworkHelper
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
@@ -8,13 +9,16 @@ import org.springframework.context.ConfigurableApplicationContext
 import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.utility.DockerImageName
 
-private val log = KotlinLogging.logger {}
+private val logger = KotlinLogging.logger {}
 
 class DatabaseContainerInitializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
 
     companion object {
         @JvmStatic
         val database = MongoDBContainer(DockerImageName.parse("mongo:8.0.13")).apply {
+            withNetwork(ContainerNetworkHelper.testNetwork)
+            withNetworkAliases("mongo-db")
+            withLabel("test-container", "ums-mongo-db")
             withEnv("MONGO_REPLICA_SET_NAME", "rs0")
             withCommand("--bind_ip_all --replSet rs0")
             withReuse(true)
@@ -25,8 +29,7 @@ class DatabaseContainerInitializer : ApplicationContextInitializer<ConfigurableA
     override fun initialize(context: ConfigurableApplicationContext) {
         // 테스트 컨테이너 시작
         database.start()
-
-        log.debug { "url = ${database.replicaSetUrl}" }
+        logger.debug { "url = ${database.replicaSetUrl}" }
 
         // application.yml 대신 프로퍼티로 datasource 설정
         TestPropertyValues.of(

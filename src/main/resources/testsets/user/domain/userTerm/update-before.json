@@ -6,7 +6,7 @@
       "termCode": "TERMS_OF_SERVICE",
       "termVersion": "1.0.0",
       "accepted": true,
-      "acceptedDate": "2024-01-01T10:00:00.123"
+      "acceptedDate": { "$date": "2024-01-01T10:00:00.123Z" }
     }
   ]
 }

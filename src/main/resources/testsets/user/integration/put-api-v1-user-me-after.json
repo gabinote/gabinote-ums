@@ -1,0 +1,17 @@
+{
+  "users": [
+    {
+      "_id": "$anyObject()",
+      "uid": "d15cdbf8-22bc-47e2-9e9a-4d171cb6522e",
+      "nickname": "UpdatedNickname",
+      "profileImg": "00000000-0000-0000-0000-000000000000",
+      "createdDate": { "$date": "2002-08-29T07:57:34.652Z" },
+      "modifiedDate": { "$date": "2002-08-27T15:00:00Z" },
+      "isOpenProfile": true,
+      "isMarketingEmailAgreed": true,
+      "isMarketingPushAgreed": true,
+      "isNightPushAgreed": true
+    }
+  ]
+}
+

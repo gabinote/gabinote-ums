@@ -1,0 +1,29 @@
+{
+  "users": [
+    {
+      "_id": { "$oid": "6524fa9a9e3d9b1a5c8b4567" },
+      "uid": "d15cdbf8-22bc-47e2-9e9a-4d171cb6522e",
+      "nickname": "OpenProfileUser",
+      "profileImg": "https://cdn.gabinote.com/profiles/open_user.png",
+      "createdDate": { "$date": "2024-01-01T10:00:00.123Z" },
+      "modifiedDate": { "$date": "2024-01-02T10:00:00.123Z" },
+      "isOpenProfile": true,
+      "isMarketingEmailAgreed": true,
+      "isMarketingPushAgreed": false,
+      "isNightPushAgreed": false
+    },
+    {
+      "_id": { "$oid": "6524fa9a9e3d9b1a5c8b4568" },
+      "uid": "a15cdbf8-22bc-47e2-9e9a-4d171cb6522f",
+      "nickname": "RequestorUser",
+      "profileImg": "https://cdn.gabinote.com/profiles/requestor.png",
+      "createdDate": { "$date": "2024-01-01T10:00:00.123Z" },
+      "modifiedDate": { "$date": "2024-01-02T10:00:00.123Z" },
+      "isOpenProfile": false,
+      "isMarketingEmailAgreed": false,
+      "isMarketingPushAgreed": true,
+      "isNightPushAgreed": true
+    }
+  ]
+}
+

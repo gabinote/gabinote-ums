@@ -1,6 +1,7 @@
 package com.gabinote.ums.user.domain.user
 
 import com.gabinote.ums.testSupport.testTemplate.RepositoryTestTemplate
+import com.gabinote.ums.testSupport.testUtil.uuid.TestUuidSource
 import io.kotest.matchers.shouldBe
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -61,6 +62,7 @@ class UserRepositoryTest : RepositoryTestTemplate() {
                     testDataHelper.setData("$baseDataDir/save-before.json")
                     it("User를 저장한다") {
                         val newUser = User(
+                            uid = TestUuidSource.UUID_STRING.toString(),
                             nickname = "NewUser",
                             profileImg = "https://cdn.gabinote.com/profiles/new_user.png",
                             isOpenProfile = true,

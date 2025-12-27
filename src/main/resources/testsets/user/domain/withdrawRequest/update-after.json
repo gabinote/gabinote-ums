@@ -1,0 +1,13 @@
+{
+  "withdraw_requests": [
+    {
+      "_id": { "$oid": "6524fa9a9e3d9b1a5c8b4001" },
+      "uid": "user_ext_1001",
+      "email": "user1001@example.com",
+      "createdDate": { "$date": "2024-01-01T10:00:00Z" },
+      "purgeStatus": "COMPLETED",
+      "purgeTryCnt": 3
+    }
+  ]
+}
+

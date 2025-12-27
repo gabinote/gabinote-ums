@@ -26,7 +26,6 @@ interface UserMapper {
     fun toUpdateReqServiceDto(dto: UserUpdateReqControllerDto, uid: UUID): UserUpdateReqServiceDto
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "uid", ignore = true)
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "modifiedDate", ignore = true)
     fun toUser(dto: UserRegisterReqServiceDto): User

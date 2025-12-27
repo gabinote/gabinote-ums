@@ -52,7 +52,10 @@ class UserMapperTest : MockkTestTemplate() {
                         profileImg = user.profileImg,
                         isOpenProfile = user.isOpenProfile,
                         createdDate = user.createdDate!!,
-                        modifiedDate = user.modifiedDate!!
+                        modifiedDate = user.modifiedDate!!,
+                        isMarketingEmailAgreed = user.isMarketingEmailAgreed,
+                        isMarketingPushAgreed = user.isMarketingPushAgreed,
+                        isNightPushAgreed = user.isNightPushAgreed
                     )
 
                     it("UserResServiceDto로 변환되어야 한다.") {
@@ -83,7 +86,10 @@ class UserMapperTest : MockkTestTemplate() {
                         profileImg = user.profileImg,
                         isOpenProfile = user.isOpenProfile,
                         createdDate = user.createdDate!!,
-                        modifiedDate = user.modifiedDate!!
+                        modifiedDate = user.modifiedDate!!,
+                        isMarketingEmailAgreed = user.isMarketingEmailAgreed,
+                        isMarketingPushAgreed = user.isMarketingPushAgreed,
+                        isNightPushAgreed = user.isNightPushAgreed
                     )
 
                     it("isOpenProfile이 false인 UserResServiceDto로 변환되어야 한다.") {
@@ -103,7 +109,10 @@ class UserMapperTest : MockkTestTemplate() {
                         profileImg = "https://cdn.gabinote.com/profiles/test.png",
                         isOpenProfile = true,
                         createdDate = TestTimeProvider.testDateTime,
-                        modifiedDate = TestTimeProvider.testDateTime
+                        modifiedDate = TestTimeProvider.testDateTime,
+                        isMarketingEmailAgreed = true,
+                        isMarketingPushAgreed = true,
+                        isNightPushAgreed = false
                     )
 
                     val expected = UserMinimalResControllerDto(
@@ -127,7 +136,10 @@ class UserMapperTest : MockkTestTemplate() {
                         profileImg = "",
                         isOpenProfile = false,
                         createdDate = TestTimeProvider.testDateTime,
-                        modifiedDate = TestTimeProvider.testDateTime
+                        modifiedDate = TestTimeProvider.testDateTime,
+                        isMarketingEmailAgreed = false,
+                        isMarketingPushAgreed = false,
+                        isNightPushAgreed = false
                     )
 
                     val expected = UserMinimalResControllerDto(
@@ -153,7 +165,10 @@ class UserMapperTest : MockkTestTemplate() {
                         profileImg = "https://cdn.gabinote.com/profiles/full.png",
                         isOpenProfile = true,
                         createdDate = TestTimeProvider.testDateTime,
-                        modifiedDate = TestTimeProvider.testDateTime
+                        modifiedDate = TestTimeProvider.testDateTime,
+                        isMarketingEmailAgreed = true,
+                        isMarketingPushAgreed = false,
+                        isNightPushAgreed = true
                     )
 
                     val expected = UserFullResControllerDto(
@@ -162,7 +177,10 @@ class UserMapperTest : MockkTestTemplate() {
                         profileImg = dto.profileImg,
                         isOpenProfile = dto.isOpenProfile,
                         createdDate = dto.createdDate,
-                        modifiedDate = dto.modifiedDate
+                        modifiedDate = dto.modifiedDate,
+                        isMarketingEmailAgreed = dto.isMarketingEmailAgreed,
+                        isMarketingPushAgreed = dto.isMarketingPushAgreed,
+                        isNightPushAgreed = dto.isNightPushAgreed
                     )
 
                     it("UserFullResControllerDto로 변환되어야 한다.") {
@@ -180,7 +198,10 @@ class UserMapperTest : MockkTestTemplate() {
                         profileImg = "https://cdn.gabinote.com/profiles/private.png",
                         isOpenProfile = false,
                         createdDate = TestTimeProvider.testDateTime,
-                        modifiedDate = TestTimeProvider.testDateTime
+                        modifiedDate = TestTimeProvider.testDateTime,
+                        isMarketingEmailAgreed = false,
+                        isMarketingPushAgreed = false,
+                        isNightPushAgreed = false
                     )
 
                     val expected = UserFullResControllerDto(
@@ -189,7 +210,10 @@ class UserMapperTest : MockkTestTemplate() {
                         profileImg = dto.profileImg,
                         isOpenProfile = dto.isOpenProfile,
                         createdDate = dto.createdDate,
-                        modifiedDate = dto.modifiedDate
+                        modifiedDate = dto.modifiedDate,
+                        isMarketingEmailAgreed = dto.isMarketingEmailAgreed,
+                        isMarketingPushAgreed = dto.isMarketingPushAgreed,
+                        isNightPushAgreed = dto.isNightPushAgreed
                     )
 
                     it("isOpenProfile이 false인 UserFullResControllerDto로 변환되어야 한다.") {
@@ -354,7 +378,7 @@ class UserMapperTest : MockkTestTemplate() {
 
                     val expected = User(
                         id = null,
-                        uid = null,
+                        uid = dto.uid.toString(),
                         createdDate = null,
                         modifiedDate = null,
                         nickname = dto.nickname,
@@ -385,7 +409,7 @@ class UserMapperTest : MockkTestTemplate() {
 
                     val expected = User(
                         id = null,
-                        uid = null,
+                        uid = dto.uid.toString(),
                         createdDate = null,
                         modifiedDate = null,
                         nickname = dto.nickname,

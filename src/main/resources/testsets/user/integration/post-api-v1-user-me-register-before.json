@@ -1,0 +1,16 @@
+{
+  "users": [],
+  "policies": [
+    {
+      "_id": { "$oid": "6524fa9a9e3d9b1a5c8b4590" },
+      "key": "user.register.enabled",
+      "value": "true"
+    },
+    {
+      "_id": { "$oid": "6524fa9a9e3d9b1a5c8b4591" },
+      "key": "user.register.base_role",
+      "value": "ROLE_USER"
+    }
+  ]
+}
+

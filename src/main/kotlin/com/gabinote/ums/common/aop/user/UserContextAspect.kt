@@ -22,8 +22,14 @@ class UserContextAspect(
     @Before("@within(org.springframework.web.bind.annotation.RestController)")
     fun initUserContext(joinPoint: JoinPoint) {
         val request = (RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes).request
-        userContext.uid = request.getHeader("X-Token-Sub")
-        userContext.roles = request.getHeader("X-Token-Roles")?.split(",") ?: emptyList()
+        val uid = request.getHeader("X-Token-Sub")
+        val roles = request.getHeader("X-Token-Roles")
+        if(uid != null && roles != null) {
+            userContext.setContext(
+                uid = uid,
+                roles = roles.split(",")
+            )
+        }
 
         logger.debug { "User context initialized with uid: ${userContext.uid} and roles: ${userContext.roles}" }
     }

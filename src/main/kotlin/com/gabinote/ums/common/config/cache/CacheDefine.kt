@@ -5,5 +5,9 @@ enum class CacheDefine(
     val expireAfterWriteMinutes: Long = 10L,
     val maximumSize: Long = 1000L,
 ) {
-
+    POLICY_CACHE(
+        cacheName = "policy",
+        expireAfterWriteMinutes = 30L,
+        maximumSize = 500L,
+    ),
 }

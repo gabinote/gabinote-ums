@@ -3,8 +3,8 @@ package com.gabinote.ums.user.service.user
 import com.gabinote.ums.common.util.exception.service.ForbiddenByPolicy
 import com.gabinote.ums.common.util.exception.service.ResourceForbidden
 import com.gabinote.ums.common.util.exception.service.ResourceNotFound
-import com.gabinote.ums.common.util.exception.service.ResourceNotValid
-import com.gabinote.ums.common.util.exception.service.ServerError
+import com.gabinote.ums.mail.service.MailService
+import com.gabinote.ums.outbox.service.OutBoxService
 import com.gabinote.ums.policy.domain.policy.PolicyKey
 import com.gabinote.ums.policy.service.policy.PolicyService
 import com.gabinote.ums.user.domain.user.User
@@ -12,21 +12,32 @@ import com.gabinote.ums.user.domain.user.UserRepository
 import com.gabinote.ums.user.dto.user.service.UserRegisterReqServiceDto
 import com.gabinote.ums.user.dto.user.service.UserResServiceDto
 import com.gabinote.ums.user.dto.user.service.UserUpdateReqServiceDto
-import com.gabinote.ums.user.dto.userTerm.service.UserTermAgreementsReqServiceDto
+import com.gabinote.ums.user.event.userWithdraw.UserWithdrawEventHelper
+import com.gabinote.ums.user.event.userWithdraw.WithdrawProcess
 import com.gabinote.ums.user.mapping.user.UserMapper
+import com.gabinote.ums.user.service.keycloakUser.KeycloakUserService
+import com.gabinote.ums.user.service.userWithdraw.UserWithdrawService
+import com.gabinote.ums.user.service.withdrawProcessHistory.WithdrawProcessHistoryService
+import com.gabinote.ums.user.service.withdrawRequest.WithdrawRequestService
+import io.github.oshai.kotlinlogging.KotlinLogging
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker
+import org.bson.types.ObjectId
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
+
+
+private val logger = KotlinLogging.logger {}
 
 @Service
 class UserService(
     private val userRepository: UserRepository,
     private val userMapper: UserMapper,
     private val policyService: PolicyService,
-    private val keycloakUserService: KeycloakUserService,
+    private val keycloakUserService: KeycloakUserService
 ) {
 
     fun fetchByUid(uid: UUID): User {
@@ -61,14 +72,13 @@ class UserService(
         checkCanRegister()
         val user = userMapper.toUser(dto)
         val savedUser = userRepository.save(user)
-        keycloakUserService.updateUserGroup(
+        keycloakUserService.updateUserRole(
             userId = dto.uid.toString(),
-            groupId = policyService.getByKey(PolicyKey.USER_REGISTER_BASE_GROUP)
+            roleName = policyService.getByKey(PolicyKey.USER_REGISTER_BASE_ROLE)
         )
         return userMapper.toResServiceDto(savedUser)
     }
 
-    @Transactional
     fun updateUser(dto: UserUpdateReqServiceDto): UserResServiceDto {
         val existingUser = fetchByUid(dto.uid)
 
@@ -81,7 +91,8 @@ class UserService(
         return userMapper.toResServiceDto(savedUser)
     }
 
-    fun deleteUser(uid: UUID) {
+
+    fun delete(uid: UUID) {
         val user = fetchByUid(uid)
         userRepository.delete(user)
     }

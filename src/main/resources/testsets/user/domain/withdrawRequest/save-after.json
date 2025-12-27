@@ -1,0 +1,15 @@
+{
+  "withdraw_requests": [
+    {
+      "_id": "$anyObject()",
+      "uid": "00000000-0000-0000-0000-000000000000",
+      "email": "newuser@example.com",
+      "createdDate": { "$date": "2002-08-27T15:00:00Z" },
+      "purgeStatus": "PENDING",
+      "purgeTryCnt": 0
+    }
+  ]
+}
+
+
+

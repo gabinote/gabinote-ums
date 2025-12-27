@@ -14,7 +14,7 @@ plugins {
 group = "com.gabinote"
 version = "0.0.1-SNAPSHOT"
 description = "gabi-ums"
-
+val springCloudVersion = "2025.0.0"
 noArg {
     annotation("com.fasterxml.jackson.annotation.JsonCreator")
     annotation("com.fasterxml.jackson.annotation.JsonIgnoreProperties")
@@ -29,6 +29,7 @@ java {
 dependencyManagement {
     imports {
         mavenBom("org.testcontainers:testcontainers-bom:2.0.2")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
     }
 }
 
@@ -66,6 +67,8 @@ dependencies {
     testImplementation("org.testcontainers:mongodb")
     testImplementation("org.testcontainers:kafka")
     testImplementation("com.github.dasniko:testcontainers-keycloak:3.7.0")
+    // https://mvnrepository.com/artifact/io.debezium/debezium-testing-testcontainers
+    testImplementation("io.debezium:debezium-testing-testcontainers:3.4.0.Final")
     // rest assured
     testImplementation("io.rest-assured:rest-assured:5.5.5")
     testImplementation("io.rest-assured:kotlin-extensions:5.5.5")
@@ -76,6 +79,8 @@ dependencies {
     testImplementation("io.kotest:kotest-framework-datatest:$kotestVersion")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.3.0")
     testImplementation("org.springframework:spring-jdbc")
+    //test utils
+    testImplementation("org.awaitility:awaitility-kotlin:4.2.0")
 
     // web
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -125,6 +130,9 @@ dependencies {
     //keycloak
     // https://mvnrepository.com/artifact/org.keycloak/keycloak-admin-client
     implementation("org.keycloak:keycloak-admin-client:26.0.5")
+
+    // circuit breaker
+    implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j")
 }
 
 kotlin {
@@ -145,7 +153,8 @@ tasks.test {
     )
     systemProperty("spring.profiles.active", "test")
     testLogging {
-        events("passed", "skipped", "failed")
+        events("passed", "skipped", "failed", "standard_out", "standard_error")
+        showStandardStreams = true
     }
     finalizedBy("openapi3")
     finalizedBy("jacocoTestReport")

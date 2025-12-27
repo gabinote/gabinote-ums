@@ -1,0 +1,17 @@
+{
+  "users": [
+    {
+      "_id": { "$oid": "6524fa9a9e3d9b1a5c8b4567" },
+      "uid": "d15cdbf8-22bc-47e2-9e9a-4d171cb6522e",
+      "nickname": "OldNickname",
+      "profileImg": "https://cdn.gabinote.com/profiles/old.png",
+      "createdDate": { "$date": "2002-08-29T07:57:34.652Z" },
+      "modifiedDate": { "$date": "2002-08-29T07:57:34.652Z" },
+      "isOpenProfile": false,
+      "isMarketingEmailAgreed": false,
+      "isMarketingPushAgreed": false,
+      "isNightPushAgreed": false
+    }
+  ]
+}
+
