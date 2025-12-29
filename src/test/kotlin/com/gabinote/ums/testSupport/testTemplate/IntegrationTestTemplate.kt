@@ -7,6 +7,8 @@ import com.gabinote.ums.testSupport.testConfig.debezium.DebeziumContainerInitial
 import com.gabinote.ums.testSupport.testConfig.keycloak.KeycloakContainerInitializer
 import com.gabinote.ums.testSupport.testConfig.keycloak.TestKeycloakUtil
 import com.gabinote.ums.testSupport.testUtil.data.TestDataHelper
+import com.gabinote.ums.testSupport.testUtil.debezium.TestDebeziumHelper
+import com.gabinote.ums.testSupport.testUtil.kafka.TestKafkaHelper
 import com.gabinote.ums.testSupport.testUtil.time.TestTimeProvider
 import com.gabinote.ums.testSupport.testUtil.uuid.TestUuidSource
 import io.kotest.core.spec.style.FeatureSpec
@@ -35,6 +37,8 @@ import org.testcontainers.junit.jupiter.Testcontainers
     TestDataHelper::class,
     TestUuidSource::class,
     TestTimeProvider::class,
+    TestKafkaHelper::class,
+    TestDebeziumHelper::class,
 )
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -53,6 +57,12 @@ abstract class IntegrationTestTemplate : FeatureSpec() {
     @Autowired
     lateinit var testKeycloakUtil: TestKeycloakUtil
 
+    @Autowired
+    lateinit var testKafkaHelper: TestKafkaHelper
+
+    @Autowired
+    lateinit var testDebeziumHelper: TestDebeziumHelper
+
 
 
     val apiPrefix: String = "/api/v1"
@@ -70,8 +80,11 @@ abstract class IntegrationTestTemplate : FeatureSpec() {
             beforeSpec()
         }
 
-        beforeTest {
+        beforeTest{
             testKeycloakUtil.recreateRealm()
+            testKafkaHelper.deleteAllTopics()
+            testDebeziumHelper.deleteAllConnectors()
         }
+
     }
 }

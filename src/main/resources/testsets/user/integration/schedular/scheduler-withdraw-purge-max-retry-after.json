@@ -1,0 +1,45 @@
+{
+  "withdraw_requests": [
+    {
+      "_id": "$anyObject()",
+      "uid": "00000000-0000-0000-0000-000000000002",
+      "email": "maxretry@gabinote.coom",
+      "purgeStatus": "FAILED",
+      "purgeTryCnt": 5,
+      "createdDate":{"$date":"2002-07-01T00:00:00Z"}
+    }
+  ],
+  "withdraw_process_histories": [
+    {
+      "_id": "$anyObject()",
+      "uid": "00000000-0000-0000-0000-000000000002",
+      "process": "KEYCLOAK_USER_DELETE",
+      "isPassed": false
+    },
+    {
+      "_id": "$anyObject()",
+      "uid": "00000000-0000-0000-0000-000000000002",
+      "process": "KEYCLOAK_USER_DELETE",
+      "isPassed": false
+    },
+    {
+      "_id": "$anyObject()",
+      "uid": "00000000-0000-0000-0000-000000000002",
+      "process": "KEYCLOAK_USER_DELETE",
+      "isPassed": false
+    },
+    {
+      "_id": "$anyObject()",
+      "uid": "00000000-0000-0000-0000-000000000002",
+      "process": "KEYCLOAK_USER_DELETE",
+      "isPassed": false
+    },
+    {
+      "_id": "$anyObject()",
+      "uid": "00000000-0000-0000-0000-000000000002",
+      "process": "KEYCLOAK_USER_DELETE",
+      "isPassed": false
+    }
+  ]
+}
+

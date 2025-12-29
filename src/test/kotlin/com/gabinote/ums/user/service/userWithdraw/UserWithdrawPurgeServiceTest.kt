@@ -192,7 +192,7 @@ class UserWithdrawPurgeServiceTest : ServiceTestTemplate() {
                             withdrawRequestService.updatePurgeStatus(
                                 old = withdrawRequest,
                                 newStatus = WithdrawPurgeStatus.FAILED,
-                                newRetryCnt = withdrawRequest.purgeTryCnt
+                                newRetryCnt = withdrawRequest.purgeTryCnt + 1
                             )
                         }
                         verify(exactly = 1) {
@@ -254,7 +254,7 @@ class UserWithdrawPurgeServiceTest : ServiceTestTemplate() {
                             withdrawRequestService.updatePurgeStatus(
                                 old = withdrawRequest,
                                 newStatus = WithdrawPurgeStatus.FAILED,
-                                newRetryCnt = withdrawRequest.purgeTryCnt
+                                newRetryCnt = withdrawRequest.purgeTryCnt + 1
                             )
                         }
                         verify(exactly = 1) {

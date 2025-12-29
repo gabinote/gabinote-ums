@@ -1,5 +1,5 @@
 {
-  "withdraw_process_history": [
+  "withdraw_process_histories": [
     {
       "_id": "$anyObject()",
       "uid": "00000000-0000-0000-0000-000000000000",

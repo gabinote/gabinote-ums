@@ -71,7 +71,33 @@ class TestKeycloakUtil(
             logger.error(e) { "Failed to create realm $realm." }
             throw e
         }
+
+        // Realm 재생성 후 Service Account의 토큰을 강제로 갱신
+        refreshServiceAccountToken()
     }
+
+    /**
+     * Realm 재생성 후 메인 애플리케이션의 Keycloak 빈 토큰을 갱신합니다.
+     * Realm이 삭제되면 기존 토큰이 무효화되므로 새 토큰을 발급받아야 합니다.
+     */
+    private fun refreshServiceAccountToken() {
+        try {
+            val tokenManager = keycloak.tokenManager()
+            // 캐시된 토큰을 무효화
+            val currentToken = tokenManager.accessTokenString
+            if (currentToken != null) {
+                tokenManager.invalidate(currentToken)
+            }
+            // 새 토큰 발급
+            tokenManager.grantToken()
+            logger.info { "Service account token refreshed successfully after realm recreation." }
+        } catch (e: Exception) {
+            logger.warn(e) { "Failed to refresh service account token, will be refreshed on next request." }
+        }
+    }
+
+
+
 
 
     fun getUser(sub: String): UserRepresentation {

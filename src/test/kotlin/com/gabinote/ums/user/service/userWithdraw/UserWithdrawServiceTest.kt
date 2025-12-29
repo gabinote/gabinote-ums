@@ -10,7 +10,6 @@ import com.gabinote.ums.user.domain.withdrawRequest.WithdrawRequest
 import com.gabinote.ums.user.dto.userWithdraw.service.PurgeKeycloakUserResServiceDto
 import com.gabinote.ums.user.event.userWithdraw.WithdrawProcess
 import com.gabinote.ums.user.service.keycloakUser.KeycloakUserService
-import com.gabinote.ums.user.service.keycloakUser.KeycloakUserServiceTest
 import com.gabinote.ums.user.service.user.UserService
 import com.gabinote.ums.user.service.withdrawProcessHistory.WithdrawProcessHistoryService
 import com.gabinote.ums.user.service.withdrawRequest.WithdrawRequestService
@@ -20,6 +19,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import org.bson.types.ObjectId
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.domain.PageRequest
 import java.time.temporal.ChronoUnit
 
@@ -48,6 +48,9 @@ class UserWithdrawServiceTest : ServiceTestTemplate() {
     @MockK
     private lateinit var userWithdrawPurgeService: UserWithdrawPurgeService
 
+    @MockK
+    private lateinit var publisher: ApplicationEventPublisher
+
     init {
         beforeTest {
             clearAllMocks()
@@ -58,7 +61,8 @@ class UserWithdrawServiceTest : ServiceTestTemplate() {
                 outBoxService,
                 userService,
                 timeProvider,
-                userWithdrawPurgeService
+                userWithdrawPurgeService,
+                publisher
             )
             // batchSize 설정
             userWithdrawService.batchSize = "10"

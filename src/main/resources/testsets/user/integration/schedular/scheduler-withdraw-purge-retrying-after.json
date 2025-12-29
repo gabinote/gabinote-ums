@@ -1,0 +1,26 @@
+{
+  "withdraw_requests": [
+    {
+      "_id": "$anyObject()",
+      "uid": "4c1d15d0-0bef-4e7a-9ea9-b65d277863a0",
+      "email": "user@gabinote.coom",
+      "purgeStatus": "COMPLETED",
+      "purgeTryCnt": 1
+    }
+  ],
+  "withdraw_process_histories": [
+    {
+      "_id": "$anyObject()",
+      "uid": "4c1d15d0-0bef-4e7a-9ea9-b65d277863a0",
+      "process": "KEYCLOAK_USER_DELETE",
+      "isPassed": false
+    },
+    {
+      "_id": "$anyObject()",
+      "uid": "4c1d15d0-0bef-4e7a-9ea9-b65d277863a0",
+      "process": "KEYCLOAK_USER_DELETE",
+      "isPassed": true
+    }
+  ]
+}
+

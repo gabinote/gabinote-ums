@@ -1,0 +1,13 @@
+{
+  "users": [],
+  "policies": [
+    {
+      "_id": { "$oid": "6524fa9a9e3d9b1a5c8b4600" },
+      "key": "user.withdraw.purge.cutoff_days",
+      "value": "30"
+    }
+  ],
+  "withdraw_requests": [],
+  "withdraw_process_histories": []
+}
+

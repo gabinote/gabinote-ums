@@ -5,6 +5,7 @@ import com.gabinote.ums.outbox.service.OutBoxService
 import com.gabinote.ums.user.domain.withdrawRequest.WithdrawPurgeStatus
 import com.gabinote.ums.user.domain.withdrawRequest.WithdrawRequest
 import com.gabinote.ums.user.dto.userWithdraw.service.PurgeKeycloakUserResServiceDto
+import com.gabinote.ums.user.event.userPurge.ForcePurgeEvent
 import com.gabinote.ums.user.event.userWithdraw.UserWithdrawEventHelper
 import com.gabinote.ums.user.event.userWithdraw.WithdrawProcess
 import com.gabinote.ums.user.service.keycloakUser.KeycloakUserService
@@ -12,9 +13,11 @@ import com.gabinote.ums.user.service.user.UserService
 import com.gabinote.ums.user.service.withdrawProcessHistory.WithdrawProcessHistoryService
 import com.gabinote.ums.user.service.withdrawRequest.WithdrawRequestService
 import io.github.oshai.kotlinlogging.KotlinLogging
+import io.github.resilience4j.core.EventPublisher
 import jakarta.annotation.PostConstruct
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
@@ -23,7 +26,7 @@ import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import java.util.UUID
 
-val logger = KotlinLogging.logger {}
+private val logger = KotlinLogging.logger {}
 
 @Service
 class UserWithdrawService(
@@ -33,7 +36,8 @@ class UserWithdrawService(
     private val outBoxService: OutBoxService,
     private val userService: UserService,
     private val timeProvider: TimeProvider,
-    private val userWithdrawPurgeService: UserWithdrawPurgeService
+    private val userWithdrawPurgeService: UserWithdrawPurgeService,
+    private val publisher: ApplicationEventPublisher,
 ) {
 
     @Value("\${gabinote.withdraw.purge.batch-size}")
@@ -52,6 +56,10 @@ class UserWithdrawService(
         // 이러면 별도의 로직 없이 동일 계정으로 탈퇴 및 재가입 시도 막는게 가능
         keycloakUserService.disableUser(uid.toString())
         logger.info { "User $uid has been withdrawn successfully." }
+    }
+
+    fun runForcePurgeWithdrawal() {
+        publisher.publishEvent(ForcePurgeEvent())
     }
 
 

@@ -1,0 +1,20 @@
+{
+  "withdraw_requests": [
+    {
+      "_id": "$anyObject()",
+      "uid": "00000000-0000-0000-0000-000000000001",
+      "email": "nonexistent@gabinote.coom",
+      "purgeStatus": "RETRYING",
+      "purgeTryCnt": 1
+    }
+  ],
+  "withdraw_process_histories": [
+    {
+      "_id": "$anyObject()",
+      "uid": "00000000-0000-0000-0000-000000000001",
+      "process": "KEYCLOAK_USER_DELETE",
+      "isPassed": false
+    }
+  ]
+}
+

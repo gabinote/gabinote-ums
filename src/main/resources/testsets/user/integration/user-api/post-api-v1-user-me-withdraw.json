@@ -13,21 +13,14 @@
       "isNightPushAgreed": false
     }
   ],
-  "user_withdraws": [
-    {
-      "_id": "$anyObject()",
-      "uid": "4c1d15d0-0bef-4e7a-9ea9-b65d277863a0",
-      "createdDate": { "$date": "2002-08-27T15:00:00Z" },
-      "doneProcess": []
-    }
+  "withdraw_requests": [
+
+  ],
+  "withdraw_process_histories": [
+
   ],
   "outbox": [
-    {
-      "_id": "$anyObject()",
-      "eventType": "ums.user.withdraw.requested",
-      "payload": "{\"uid\":\"4c1d15d0-0bef-4e7a-9ea9-b65d277863a0\"}",
-      "createdAt": { "$date": "2002-08-27T15:00:00Z" }
-    }
+
   ]
 }
 

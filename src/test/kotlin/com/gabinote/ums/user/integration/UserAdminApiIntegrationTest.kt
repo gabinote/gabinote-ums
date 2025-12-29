@@ -15,7 +15,7 @@ class UserAdminApiIntegrationTest : IntegrationTestTemplate() {
             feature("[GET] /api/v1/admin/user/{uid}") {
                 scenario("관리자가 사용자 UID로 정보를 조회하면, 전체 사용자 정보를 반환해야 한다.") {
                     Given {
-                        testDataHelper.setData("/testsets/user/integration/get-api-v1-admin-user-uid.json")
+                        testDataHelper.setData("/testsets/user/integration/admin-api/get-api-v1-admin-user-uid.json")
                         basePath(apiPrefix)
                         accept("application/json")
                         header("X-Token-Sub", "admin-user-id")
@@ -38,7 +38,7 @@ class UserAdminApiIntegrationTest : IntegrationTestTemplate() {
 
                 scenario("존재하지 않는 사용자 UID로 조회하면, 404 에러를 반환해야 한다.") {
                     Given {
-                        testDataHelper.setData("/testsets/user/integration/get-api-v1-admin-user-uid.json")
+                        testDataHelper.setData("/testsets/user/integration/admin-api/get-api-v1-admin-user-uid.json")
                         basePath(apiPrefix)
                         accept("application/json")
                         header("X-Token-Sub", "admin-user-id")
@@ -52,7 +52,7 @@ class UserAdminApiIntegrationTest : IntegrationTestTemplate() {
 
                 scenario("잘못된 UUID 형식으로 조회하면, 400 에러를 반환해야 한다.") {
                     Given {
-                        testDataHelper.setData("/testsets/user/integration/get-api-v1-admin-user-uid.json")
+                        testDataHelper.setData("/testsets/user/integration/admin-api/get-api-v1-admin-user-uid.json")
                         basePath(apiPrefix)
                         accept("application/json")
                         header("X-Token-Sub", "admin-user-id")
@@ -61,6 +61,21 @@ class UserAdminApiIntegrationTest : IntegrationTestTemplate() {
                         get("/admin/user/invalid-uuid-format")
                     }.Then {
                         statusCode(400)
+                    }
+                }
+            }
+
+            feature("[POST] /api/v1/admin/user/withdraw/purge") {
+                scenario("관리자가 탈퇴 유저 강제 퍼지를 요청하면, 200 OK를 반환해야 한다.") {
+                    Given {
+                        basePath(apiPrefix)
+                        accept("application/json")
+                        header("X-Token-Sub", "admin-user-id")
+                        header("X-Token-Roles", "admin")
+                    }.When {
+                        post("/admin/user/withdraw/purge")
+                    }.Then {
+                        statusCode(200)
                     }
                 }
             }

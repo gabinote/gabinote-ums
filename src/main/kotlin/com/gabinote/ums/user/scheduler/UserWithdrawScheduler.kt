@@ -6,6 +6,8 @@ import com.gabinote.ums.user.domain.withdrawRequest.WithdrawPurgeStatus
 import com.gabinote.ums.user.service.userWithdraw.UserWithdrawService
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.bouncycastle.math.Primes
+import org.springframework.context.event.EventListener
+import org.springframework.scheduling.annotation.Async
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import java.time.temporal.ChronoUnit

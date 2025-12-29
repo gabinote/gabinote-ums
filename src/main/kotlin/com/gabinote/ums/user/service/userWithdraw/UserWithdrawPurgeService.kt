@@ -78,7 +78,7 @@ class UserWithdrawPurgeService(
         withdrawRequestService.updatePurgeStatus(
             old = withdrawRequest,
             newStatus = WithdrawPurgeStatus.FAILED,
-            newRetryCnt = withdrawRequest.purgeTryCnt,
+            newRetryCnt = withdrawRequest.purgeTryCnt + 1,
         )
         withdrawProcessHistoryService.create(
             uid = UUID.fromString(withdrawRequest.uid),

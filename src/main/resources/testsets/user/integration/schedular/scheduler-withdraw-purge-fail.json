@@ -1,0 +1,22 @@
+{
+  "users": [],
+  "policies": [
+    {
+      "_id": { "$oid": "6524fa9a9e3d9b1a5c8b4600" },
+      "key": "user.withdraw.purge.cutoff_days",
+      "value": "30"
+    }
+  ],
+  "withdraw_requests": [
+    {
+      "_id": { "$oid": "6524fa9a9e3d9b1a5c8b4601" },
+      "uid": "00000000-0000-0000-0000-000000000001",
+      "email": "nonexistent@gabinote.coom",
+      "createdDate": { "$date": "2002-07-01T00:00:00.000Z" },
+      "purgeStatus": "PENDING",
+      "purgeTryCnt": 0
+    }
+  ],
+  "withdraw_process_histories": []
+}
+

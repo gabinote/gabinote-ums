@@ -10,6 +10,7 @@ import com.gabinote.ums.user.dto.user.controller.UserRegisterReqControllerDto
 import com.gabinote.ums.user.dto.user.controller.UserUpdateReqControllerDto
 import com.gabinote.ums.user.mapping.user.UserMapper
 import com.gabinote.ums.user.service.user.UserService
+import com.gabinote.ums.user.service.userWithdraw.UserWithdrawService
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -28,7 +29,8 @@ import java.util.UUID
 class UserApiController(
     private val userService: UserService,
     private val userMapper: UserMapper,
-    private val userContext: UserContext
+    private val userContext: UserContext,
+    private val userWithdrawService: UserWithdrawService
 ) {
 
     @NeedAuth
@@ -78,7 +80,7 @@ class UserApiController(
     @NeedAuth
     @PostMapping("/me/withdraw")
     fun withdraw(): ResponseEntity<Void> {
-//        userService.withdrawUser(userContext.uidWithUUID())
+        userWithdrawService.withdrawUser(userContext.uidWithUUID())
         return ResponseEntity.noContent().build()
     }
 

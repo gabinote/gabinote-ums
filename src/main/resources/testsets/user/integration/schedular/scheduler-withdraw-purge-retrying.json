@@ -1,0 +1,30 @@
+{
+  "users": [],
+  "policies": [
+    {
+      "_id": { "$oid": "6524fa9a9e3d9b1a5c8b4600" },
+      "key": "user.withdraw.purge.cutoff_days",
+      "value": "30"
+    }
+  ],
+  "withdraw_requests": [
+    {
+      "_id": { "$oid": "6524fa9a9e3d9b1a5c8b4601" },
+      "uid": "4c1d15d0-0bef-4e7a-9ea9-b65d277863a0",
+      "email": "user@gabinote.coom",
+      "createdDate": { "$date": "2002-07-01T00:00:00.000Z" },
+      "purgeStatus": "RETRYING",
+      "purgeTryCnt": 1
+    }
+  ],
+  "withdraw_process_histories": [
+    {
+      "_id": { "$oid": "6524fa9a9e3d9b1a5c8b4701" },
+      "uid": "4c1d15d0-0bef-4e7a-9ea9-b65d277863a0",
+      "process": "KEYCLOAK_USER_DELETE",
+      "isPassed": false,
+      "createdDate": { "$date": "2002-07-27T00:00:00.000Z" }
+    }
+  ]
+}
+
