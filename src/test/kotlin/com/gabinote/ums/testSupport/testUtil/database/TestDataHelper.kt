@@ -1,4 +1,4 @@
-package com.gabinote.ums.testSupport.testUtil.data
+package com.gabinote.ums.testSupport.testUtil.database
 
 
 import com.fasterxml.jackson.core.JsonGenerator
@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.bson.types.ObjectId
 import org.springframework.boot.test.context.TestComponent
@@ -25,7 +26,7 @@ class TestDataHelper(
     ) {
 
     private val objectMapper: ObjectMapper = ObjectMapper().apply {
-        registerModule(com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
+        registerModule(JavaTimeModule())
 
         val mongoModule = SimpleModule().apply {
 

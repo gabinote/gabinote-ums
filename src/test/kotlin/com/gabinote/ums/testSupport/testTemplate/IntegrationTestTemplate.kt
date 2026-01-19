@@ -1,12 +1,11 @@
 package com.gabinote.ums.testSupport.testTemplate
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.gabinote.ums.testSupport.testConfig.common.UseTestContainers
 import com.gabinote.ums.testSupport.testConfig.db.DatabaseContainerInitializer
 import com.gabinote.ums.testSupport.testConfig.debezium.DebeziumContainerInitializer
 import com.gabinote.ums.testSupport.testConfig.keycloak.KeycloakContainerInitializer
 import com.gabinote.ums.testSupport.testConfig.keycloak.TestKeycloakUtil
-import com.gabinote.ums.testSupport.testUtil.data.TestDataHelper
+import com.gabinote.ums.testSupport.testUtil.database.TestDataHelper
 import com.gabinote.ums.testSupport.testUtil.debezium.TestDebeziumHelper
 import com.gabinote.ums.testSupport.testUtil.kafka.TestKafkaHelper
 import com.gabinote.ums.testSupport.testUtil.time.TestTimeProvider

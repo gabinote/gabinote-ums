@@ -58,6 +58,6 @@ TODO.md
 
 repositoryTestBaseline.md
 mapperTestBaseline.md
-serviceTestBaseline.md
+../token-proxy/serviceTestBaseline.md
 controllerTestBaseline.md
 integrationTestBaseline.md

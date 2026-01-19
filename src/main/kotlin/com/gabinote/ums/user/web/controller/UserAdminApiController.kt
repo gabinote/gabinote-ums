@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
 @Validated
-@RequestMapping("/api/v1/admin/user")
+@RequestMapping("/admin/api/v1/user")
 @RestController
 class UserAdminApiController(
     private val userService: UserService,
