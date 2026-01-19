@@ -48,8 +48,11 @@ class UserWithdrawService(
     @Transactional
     fun withdrawUser(uid: UUID) {
         userService.delete(uid)
-        withdrawRequestService.create(uid)
-        withdrawProcessHistoryService.create(uid, WithdrawProcess.APPLICATION_USER_DELETE)
+        val withdrawReq = withdrawRequestService.create(uid)
+        withdrawProcessHistoryService.create(
+            request = withdrawReq,
+            process = WithdrawProcess.APPLICATION_USER_DELETE
+        )
         outBoxService.createWithdrawEvent(uid)
         // request 생성시에는 keycloak 유저 비활성화만 함.
         // 삭제는 후에 스케줄러에서 일괄 처리

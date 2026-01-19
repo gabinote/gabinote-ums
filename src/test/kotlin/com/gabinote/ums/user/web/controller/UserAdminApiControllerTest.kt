@@ -46,7 +46,7 @@ class UserAdminApiControllerTest : WebMvcTestTemplate() {
     @MockkBean
     private lateinit var userWithdrawService: UserWithdrawService
 
-    private val apiPrefix = "/api/v1/admin/user"
+    private val apiPrefix = "/admin/api/v1/user"
 
     init {
         describe("[User] UserAdminApiController Test") {

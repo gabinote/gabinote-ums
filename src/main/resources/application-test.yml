@@ -1,0 +1,65 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  main:
+    allow-bean-definition-overriding: true
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration
+  kafka:
+    producer:
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+      auto-offset-reset: earliest
+    listener:
+      ack-mode: MANUAL_IMMEDIATE
+
+logging:
+  config: classpath:logback-test.xml
+
+keycloak:
+  admin-client:
+    realm: gabinote-test
+
+test-keycloak:
+  admin-client:
+    realm: master
+    client-id: test-admin-cli
+    client-secret: admin-secret
+  test-client:
+    id: gabinote-test-client
+    secret: test-secret
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      userWithdrawProcess:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        failureRateThreshold: 80
+        waitDurationInOpenState: 30s
+        permittedNumberOfCallsInHalfOpenState: 2
+        minimumNumberOfCalls: 10
+
+
+gabinote:
+  withdraw:
+    purge:
+      max-retry-attempts: 5
+      batch-size: 100
+      schedule: "0 0 3 * * *"  # 3 AM
+

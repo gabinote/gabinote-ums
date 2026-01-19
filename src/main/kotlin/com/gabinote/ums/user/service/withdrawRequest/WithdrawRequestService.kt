@@ -30,14 +30,15 @@ class WithdrawRequestService(
     }
 
     @Transactional
-    fun create(uid: UUID) {
+    fun create(uid: UUID) : WithdrawRequest {
         val userEmail = keycloakUserService.getUserEmail(uid.toString())
         val withdrawRequest = WithdrawRequest(
             uid = uid.toString(),
             email = userEmail,
             purgeStatus = WithdrawPurgeStatus.PENDING.value
         )
-        withdrawRequestRepository.save(withdrawRequest)
+        val saved = withdrawRequestRepository.save(withdrawRequest)
+        return saved
     }
 
     private fun calCutoffCreatedDate(targetTime: LocalDateTime): LocalDateTime {

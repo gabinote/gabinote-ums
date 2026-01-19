@@ -17,6 +17,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.verify
 import org.bson.types.ObjectId
 import org.springframework.context.ApplicationEventPublisher
@@ -72,12 +73,13 @@ class UserWithdrawServiceTest : ServiceTestTemplate() {
             describe("UserWithdrawService.withdrawUser") {
                 context("유효한 uid가 주어지면,") {
                     val uid = TestUuidSource.UUID_STRING
-
+                    val withdrawRequest = mockk<WithdrawRequest>()
                     beforeTest {
                         every { userService.delete(uid) } returns Unit
-                        every { withdrawRequestService.create(uid) } returns Unit
+                        every { withdrawRequestService.create(uid) } returns withdrawRequest
+
                         every {
-                            withdrawProcessHistoryService.create(uid, WithdrawProcess.APPLICATION_USER_DELETE)
+                            withdrawProcessHistoryService.create( request = withdrawRequest,  process = WithdrawProcess.APPLICATION_USER_DELETE)
                         } returns Unit
                         every { outBoxService.createWithdrawEvent(uid) } returns Unit
                         every { keycloakUserService.disableUser(uid.toString()) } returns Unit
@@ -89,7 +91,7 @@ class UserWithdrawServiceTest : ServiceTestTemplate() {
                         verify(exactly = 1) { userService.delete(uid) }
                         verify(exactly = 1) { withdrawRequestService.create(uid) }
                         verify(exactly = 1) {
-                            withdrawProcessHistoryService.create(uid, WithdrawProcess.APPLICATION_USER_DELETE)
+                            withdrawProcessHistoryService.create( request = withdrawRequest,  process = WithdrawProcess.APPLICATION_USER_DELETE)
                         }
                         verify(exactly = 1) { outBoxService.createWithdrawEvent(uid) }
                         verify(exactly = 1) { keycloakUserService.disableUser(uid.toString()) }

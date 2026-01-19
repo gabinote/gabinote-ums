@@ -3,6 +3,7 @@ package com.gabinote.ums.user.service.withdrawProcessHistory
 import com.gabinote.ums.user.domain.user.UserRepository
 import com.gabinote.ums.user.domain.withdrawProcessHistory.WithdrawProcessHistory
 import com.gabinote.ums.user.domain.withdrawProcessHistory.WithdrawProcessHistoryRepository
+import com.gabinote.ums.user.domain.withdrawRequest.WithdrawRequest
 import com.gabinote.ums.user.event.userWithdraw.WithdrawProcess
 import com.gabinote.ums.user.service.withdrawRequest.WithdrawRequestService
 import org.springframework.stereotype.Service
@@ -19,6 +20,16 @@ class WithdrawProcessHistoryService(
         val withdrawProcessHistory = WithdrawProcessHistory(
             uid = uid.toString(),
             requestId = withdrawRequest.id!!,
+            process = process.value,
+            isPassed = isPassed,
+        )
+        withdrawProcessHistoryRepository.save(withdrawProcessHistory)
+    }
+
+    fun create(request: WithdrawRequest,isPassed: Boolean = true, process: WithdrawProcess) {
+        val withdrawProcessHistory = WithdrawProcessHistory(
+            uid = request.uid,
+            requestId = request.id!!,
             process = process.value,
             isPassed = isPassed,
         )

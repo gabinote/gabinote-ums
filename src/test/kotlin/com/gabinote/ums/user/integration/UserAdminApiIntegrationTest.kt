@@ -9,19 +9,21 @@ import org.hamcrest.Matchers.notNullValue
 
 class UserAdminApiIntegrationTest : IntegrationTestTemplate() {
 
+    override val apiPrefix: String = "/admin/api/v1"
+
     init {
+
         feature("[Admin] User Admin API Integration Test") {
 
-            feature("[GET] /api/v1/admin/user/{uid}") {
+            feature("[GET] /admin/api/v1/user/{uid}") {
                 scenario("관리자가 사용자 UID로 정보를 조회하면, 전체 사용자 정보를 반환해야 한다.") {
                     Given {
                         testDataHelper.setData("/testsets/user/integration/admin-api/get-api-v1-admin-user-uid.json")
-                        basePath(apiPrefix)
                         accept("application/json")
                         header("X-Token-Sub", "admin-user-id")
                         header("X-Token-Roles", "admin")
                     }.When {
-                        get("/admin/user/d15cdbf8-22bc-47e2-9e9a-4d171cb6522e")
+                        get("/user/d15cdbf8-22bc-47e2-9e9a-4d171cb6522e")
                     }.Then {
                         statusCode(200)
                         body("uid", equalTo("d15cdbf8-22bc-47e2-9e9a-4d171cb6522e"))
@@ -39,12 +41,11 @@ class UserAdminApiIntegrationTest : IntegrationTestTemplate() {
                 scenario("존재하지 않는 사용자 UID로 조회하면, 404 에러를 반환해야 한다.") {
                     Given {
                         testDataHelper.setData("/testsets/user/integration/admin-api/get-api-v1-admin-user-uid.json")
-                        basePath(apiPrefix)
                         accept("application/json")
                         header("X-Token-Sub", "admin-user-id")
                         header("X-Token-Roles", "admin")
                     }.When {
-                        get("/admin/user/00000000-0000-0000-0000-000000000000")
+                        get("/user/00000000-0000-0000-0000-000000000000")
                     }.Then {
                         statusCode(404)
                     }
@@ -53,27 +54,25 @@ class UserAdminApiIntegrationTest : IntegrationTestTemplate() {
                 scenario("잘못된 UUID 형식으로 조회하면, 400 에러를 반환해야 한다.") {
                     Given {
                         testDataHelper.setData("/testsets/user/integration/admin-api/get-api-v1-admin-user-uid.json")
-                        basePath(apiPrefix)
                         accept("application/json")
                         header("X-Token-Sub", "admin-user-id")
                         header("X-Token-Roles", "admin")
                     }.When {
-                        get("/admin/user/invalid-uuid-format")
+                        get("/user/invalid-uuid-format")
                     }.Then {
                         statusCode(400)
                     }
                 }
             }
 
-            feature("[POST] /api/v1/admin/user/withdraw/purge") {
+            feature("[POST] /admin/api/v1/user/withdraw/purge") {
                 scenario("관리자가 탈퇴 유저 강제 퍼지를 요청하면, 200 OK를 반환해야 한다.") {
                     Given {
-                        basePath(apiPrefix)
                         accept("application/json")
                         header("X-Token-Sub", "admin-user-id")
                         header("X-Token-Roles", "admin")
                     }.When {
-                        post("/admin/user/withdraw/purge")
+                        post("/user/withdraw/purge")
                     }.Then {
                         statusCode(200)
                     }

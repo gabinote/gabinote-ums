@@ -2,7 +2,7 @@ package com.gabinote.ums.testSupport.testTemplate
 
 
 import com.gabinote.ums.testSupport.testConfig.db.UseTestDatabase
-import com.gabinote.ums.testSupport.testUtil.data.TestDataHelper
+import com.gabinote.ums.testSupport.testUtil.database.TestDataHelper
 import com.gabinote.ums.testSupport.testUtil.time.TestTimeConfig
 import com.gabinote.ums.testSupport.testUtil.uuid.TestUuidSource
 import com.gabinote.ums.common.config.MongodbConfig
