@@ -3,4 +3,4 @@ spring:
     name: gabi-ums
 
   profiles:
-    active: local,test,prod
+    active: test,prod,preview
