@@ -51,7 +51,6 @@ application-prod.properties
 application-prod.yml
 
 aplication-test.properties
-application-test.yml
 
 ### personal ###
 TODO.md
