@@ -366,10 +366,10 @@ class UserApiControllerTest : WebMvcTestTemplate() {
                     }
 
                     describe("실패케이스") {
-                        context("profileImg가 36자를 초과하면") {
+                        context("profileImg가 50자를 초과하면") {
                             val request = UserRegisterReqControllerDto(
                                 nickname = "TestUser",
-                                profileImg = "a".repeat(37),
+                                profileImg = "a".repeat(51),
                                 isOpenProfile = true,
                                 isEssentialTermsAgreements = true,
                                 isMarketingEmailAgreed = false,
@@ -391,10 +391,10 @@ class UserApiControllerTest : WebMvcTestTemplate() {
                     }
 
                     describe("성공케이스") {
-                        context("profileImg가 정확히 36자면") {
+                        context("profileImg가 정확히 50자면") {
                             val request = UserRegisterReqControllerDto(
                                 nickname = "TestUser",
-                                profileImg = "a".repeat(36),
+                                profileImg = "a".repeat(50),
                                 isOpenProfile = true,
                                 isEssentialTermsAgreements = true,
                                 isMarketingEmailAgreed = false,
@@ -567,7 +567,7 @@ class UserApiControllerTest : WebMvcTestTemplate() {
                                             .description("내 정보 수정")
                                             .requestFields(
                                                 fieldWithPath("nickname").description("닉네임 (2-20자)"),
-                                                fieldWithPath("profile_img").description("프로필 이미지 URL (최대 36자)"),
+                                                fieldWithPath("profile_img").description("프로필 이미지 URL (최대 50자)"),
                                                 fieldWithPath("is_open_profile").description("프로필 공개 여부"),
                                                 fieldWithPath("is_marketing_email_agreed").description("마케팅 이메일 수신 동의 여부"),
                                                 fieldWithPath("is_marketing_push_agreed").description("마케팅 푸시 수신 동의 여부"),
@@ -713,10 +713,10 @@ class UserApiControllerTest : WebMvcTestTemplate() {
                     }
 
                     describe("실패케이스") {
-                        context("profileImg가 36자를 초과하면") {
+                        context("profileImg가 50자를 초과하면") {
                             val request = UserUpdateReqControllerDto(
                                 nickname = "TestUser",
-                                profileImg = "a".repeat(37),
+                                profileImg = "a".repeat(51),
                                 isOpenProfile = true,
                                 isMarketingEmailAgreed = false,
                                 isMarketingPushAgreed = false,
@@ -736,10 +736,10 @@ class UserApiControllerTest : WebMvcTestTemplate() {
                     }
 
                     describe("성공케이스") {
-                        context("profileImg가 정확히 36자면") {
+                        context("profileImg가 정확히 50자면") {
                             val request = UserUpdateReqControllerDto(
                                 nickname = "TestUser",
-                                profileImg = "a".repeat(36),
+                                profileImg = "a".repeat(50),
                                 isOpenProfile = true,
                                 isMarketingEmailAgreed = false,
                                 isMarketingPushAgreed = false,
